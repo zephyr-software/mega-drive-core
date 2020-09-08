@@ -3,7 +3,7 @@
 ; ******************************************************************************
 
     dc.l   0x00FFFF00 ; stack pointer - 255 bytes
-    dc.l   MAIN       ; program start
+    dc.l   INIT       ; program start
     dc.l   EXCEPTION  ; bus error
     dc.l   EXCEPTION  ; address error
     dc.l   EXCEPTION  ; illegal instruction

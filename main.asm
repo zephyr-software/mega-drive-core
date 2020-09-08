@@ -3,6 +3,7 @@
 ; ******************************************************************************
     include vector.asm
     include header.asm
+    include init.asm
 
 MAIN:
     move.l #0xF, d0 ; move 15 into register d0
@@ -16,4 +17,6 @@ VINT:
 EXCEPTION:
     stop #$2700 ; halt cpu
 
+
+    include 'data.asm'
 ROM_END:
