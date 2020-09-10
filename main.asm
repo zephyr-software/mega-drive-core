@@ -4,11 +4,24 @@
     include vector.asm
     include header.asm
     include init.asm
+    include graphics.asm
+
 
 MAIN:
-    move.l #0xF, d0 ; move 15 into register d0
-    move.l d0, d1   ; move contents of register d0 into d1
-    jmp MAIN        ; jump back up to main
+; --------------------------------------
+; load system palette colors into cram
+; --------------------------------------
+    movem  A0-A6/D0-D7,    -(SP)
+    lea    SYS_PAL,        A0
+    move.l #0x0,           D0          ; palette num 0
+    jsr    LOAD_PALETTE_SR
+    movem  (SP)+,          A0-A6/D0-D7
+
+    move.w #0x8704, 0x00C00004; set background colour to palette 0, colour 4
+
+MAIN_LOOP:
+    jmp MAIN_LOOP
+
 
 HINT:
 VINT:
