@@ -17,7 +17,15 @@ MAIN:
     jsr    LOAD_PALETTE_SR
     movem  (SP)+,          A0-A6/D0-D7
 
-    move.w #0x8704, 0x00C00004; set background colour to palette 0, colour 4
+; --------------------------------------
+; load system tyles
+; --------------------------------------
+    movem  A0-A6/D0-D7,  -(SP)
+    lea    SYS_DATA,     A0
+    move.l #0x2,         D0          ; 2 tyles to load
+    move.l #0x0,         D1          ; vram tiles offset
+    jsr    LOAD_TILES_SR
+    movem  (SP)+,        A0-A6/D0-D7
 
 MAIN_LOOP:
     jmp MAIN_LOOP
