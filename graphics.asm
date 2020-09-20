@@ -79,3 +79,38 @@ LOAD_TYLES__LOOP:
     move.w #0x8F00, 0x00C00004       ; set vdp auto increment off
 
     rts
+
+
+; ==============================================================================
+; FILL_SCREEN_SR - clear screen subroutine
+; clear screen with tyle for plane a and b
+; ------------------------------------------------------------------------------
+; input params:
+; D0 - tile number in vdp to fill with
+;
+; output params: no
+; ------------------------------------------------------------------------------
+; call example:
+; movem  A0-A6/D0-D7,   -(SP)
+; move.l #0x0,          D0          ; tile number in vdp to fill with
+; jsr    FILL_SCREEN_SR
+; movem  (SP)+,         A0-A6/D0-D7
+; ============================================================================== 
+FILL_SCREEN_SR:
+    move.w #0x8F02,     0x00C00004 ; set vdp auto increment on
+    move.l #0x40000003, 0x00C00004 ; set vdp to write to vram 0xC000
+
+    move.l #0x3FF, D1 ; 32 * 32 - 1 tiles
+FILL_SCREEN__CLEAR_PLANE_A:
+    move.w D0,     0x00C00000              ; tile number to clear
+    dbra D1,       FILL_SCREEN__CLEAR_PLANE_A
+
+    move.l #0x60000003, 0x00C00004         ; set vdp to write to vram 0xE000
+
+    move.l #0x3FF,      D1                 ; 32 * 32 - 1 tyles to write
+CLEAR_SCREEN_PLANE_B:
+    move.w D0,          0x00C00000
+    dbra D1,            CLEAR_SCREEN_PLANE_B
+
+    move.w #0x8F00,     0x00C00004           ; set vdp auto increment off
+    rts
