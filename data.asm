@@ -42,18 +42,18 @@ SYS_PAL:
     dc.w 0x0E0E ; color #4 - purple
     dc.w 0x00EE ; color #5 - yellow
     dc.w 0x0EEE ; color #6 - white
-    dc.w 0x0000 ; color #7
+    dc.w 0x0303 ; color #7 - dark purple
     dc.w 0x0000 ; color #8
     dc.w 0x0000 ; color #9
     dc.w 0x0000 ; color #A
     dc.w 0x0000 ; color #B
     dc.w 0x0000 ; color #C
-    dc.w 0x0000 ; color #D
-    dc.w 0x0000 ; color #E
-    dc.w 0x0FFF ; color #F - white [cram debug]
+    dc.w 0x05E9 ; color #D
+    dc.w 0x0E65 ; color #E
+    dc.w 0x0F96 ; color #F
 
 ; --------------------------------------
-; system data
+; system data tiles
 ; --------------------------------------
 SYS_DATA:
     dc.l 0x00000000 ; tile 0 - empty
@@ -65,11 +65,42 @@ SYS_DATA:
     dc.l 0x00000000
     dc.l 0x00000000
 
-    dc.l 0x22222222 ; tile 1 - grid
-    dc.l 0x20000000
-    dc.l 0x20000000
-    dc.l 0x20000000
-    dc.l 0x20000000
-    dc.l 0x20000000
-    dc.l 0x20000000
-    dc.l 0x20000000
+    dc.l 0x70707070 ; tile 1 - grid
+    dc.l 0x70000000
+    dc.l 0x70000000
+    dc.l 0x70000000
+    dc.l 0x70000000
+    dc.l 0x70000000
+    dc.l 0x70000000
+    dc.l 0x70000000
+
+; --------------------------------------
+; test tilemap tiles
+;---------------------------------------
+TILE_DATA:
+    dc.l 0xFFFFFFFF ; brick
+    dc.l 0xFEEEEEEF
+    dc.l 0xFEEEEEEF
+    dc.l 0xFFFFFFFF
+    dc.l 0xFFFFFFFF
+    dc.l 0xEEEFFEEE
+    dc.l 0xEEEFFEEE
+    dc.l 0xFFFFFFFF
+
+    dc.l 0x00DD0000 ; ladder left
+    dc.l 0x00DDDDDD
+    dc.l 0x00DDDDDD
+    dc.l 0x00DD0000
+    dc.l 0x00DD0000
+    dc.l 0x00DDDDDD
+    dc.l 0x00DDDDDD
+    dc.l 0x00DD0000
+
+    dc.l 0x0000DD00 ; ladder right
+    dc.l 0xDDDDDD00
+    dc.l 0xDDDDDD00
+    dc.l 0x0000DD00
+    dc.l 0x0000DD00
+    dc.l 0xDDDDDD00
+    dc.l 0xDDDDDD00
+    dc.l 0x0000DD00

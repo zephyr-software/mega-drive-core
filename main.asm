@@ -23,18 +23,42 @@ MAIN:
     movem  A0-A6/D0-D7,  -(SP)
     lea    SYS_DATA,     A0
     move.l #0x2,         D0          ; 2 tyles to load
-    move.l #0x0,         D1          ; vram tiles offset
+    move.l #0x0,         D1          ; 0 vram tiles offset
+    jsr    LOAD_TILES_SR
+    movem  (SP)+,        A0-A6/D0-D7
+
+; --------------------------------------
+; load tilemap tyles
+; --------------------------------------
+    movem  A0-A6/D0-D7,  -(SP)
+    lea    TILE_DATA,   A0
+    move.l #0x5,         D0          ; 3 tyles to load
+    move.l #0x2,         D1          ; 2 vram tiles offset
     jsr    LOAD_TILES_SR
     movem  (SP)+,        A0-A6/D0-D7
 
 ; --------------------------------------
 ; clear screen with tyle
-; -------------------------------------- 
+; --------------------------------------
     movem  A0-A6/D0-D7,   -(SP)
     move.l #0x1,          D0 ; tile number in vdp to fill with
     jsr    FILL_SCREEN_SR
     movem  (SP)+,         A0-A6/D0-D7
 
+
+; --------------------------------------
+; test
+; --------------------------------------
+    move.w #0x8F02,     0x00C00004 ; set vdp auto increment on
+    move.l #0x40000003, 0x00C00004 ; set vdp to write to vram 0xC000
+
+    lea TILEMAP_DATA, A0
+    move.l  #0x37F,  D0
+LOAD_TILE_MAP_LOOP:
+    move.w (A0)+, 0x00C00000
+    dbra   D0,    LOAD_TILE_MAP_LOOP
+
+    move.w #0x8F00,  0x00C00004 ; set vdp auto increment off
 
 MAIN_LOOP:
     jmp MAIN_LOOP
@@ -49,4 +73,5 @@ EXCEPTION:
 
 
     include 'data.asm'
+    include 'tilemap.asm'
 ROM_END:
