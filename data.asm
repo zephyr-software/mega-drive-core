@@ -2,6 +2,7 @@
 ; data section
 ; ******************************************************************************
 
+
 ; --------------------------------------
 ; vdp register table
 ; --------------------------------------
@@ -30,3 +31,24 @@ VDP_REG:
     dc.b 0x00 ; 21: dma source address low
     dc.b 0x00 ; 22: dma source address mid
     dc.b 0x00 ; 23: dma source address high; memory to vram
+
+; --------------------------------------
+; system palette
+; --------------------------------------
+SYS_PAL:
+    dc.w 0x0000 ; color #0 - black
+    dc.w 0x0E00 ; color #1 - blue
+    dc.w 0x00E0 ; color #2 - green
+    dc.w 0x000E ; color #3 - red
+    dc.w 0x0E0E ; color #4 - purple
+    dc.w 0x00EE ; color #5 - yellow
+    dc.w 0x0EEE ; color #6 - white
+    dc.w 0x0000 ; color #7
+    dc.w 0x0000 ; color #8
+    dc.w 0x0000 ; color #9
+    dc.w 0x0000 ; color #A
+    dc.w 0x0000 ; color #B
+    dc.w 0x0000 ; color #C
+    dc.w 0x0000 ; color #D
+    dc.w 0x0000 ; color #E
+    dc.w 0x0EEE ; color #F - white [cram debug]
