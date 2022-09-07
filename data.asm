@@ -7,30 +7,30 @@
 ; vdp register table
 ; --------------------------------------
 VDP_REG:
-    dc.b 0x14 ; 0: enable h interrupt (68000 level 4); enable read hv counter
-    dc.b 0x74 ; 1: enable display; enable v interrupt (68000 level 6); dma enable
-    dc.b 0x30 ; 2: pattern name table base address for scroll a 0xC000
-    dc.b 0x34 ; 3: pattern name table base address for window 0xD000
-    dc.b 0x07 ; 4: pattern name table base address for scroll b 0xE000
-    dc.b 0x78 ; 5: sprite attribute table base address 0xF000
-    dc.b 0x00 ; 6:
-    dc.b 0x00 ; 7: background color 0
-    dc.b 0x00 ; 8:
-    dc.b 0x00 ; 9:
-    dc.b 0x00 ; 10: register makes h interrupt timing by number of raster
-    dc.b 0x00 ; 11: disable external interrupt; v scroll mode full scroll; h scroll mode full scroll.
-    dc.b 0x00 ; 12: 32 cell mode; disable shadow / highlight; no interlace
-    dc.b 0x3E ; 13: h scroll data table base address 0xF800
-    dc.b 0x00 ; 14:
-    dc.b 0x00 ; 15: register controls bias number of increment data
-    dc.b 0x00 ; 16: scroll size: v 32 cell; h 32 cell
-    dc.b 0x00 ; 17: window h position
-    dc.b 0x00 ; 18: window v position
-    dc.b 0x00 ; 19: dma length counter low
-    dc.b 0x00 ; 20: dma length counter high
-    dc.b 0x00 ; 21: dma source address low
-    dc.b 0x00 ; 22: dma source address mid
-    dc.b 0x00 ; 23: dma source address high; memory to vram
+    dc.b 0x06 ; 00: mode 1: [h int]- [h,v count]-
+    dc.b 0x44 ; 01: mode 2: [display]+ [v int]- [dma]- [v28 cell mode]
+    dc.b 0x30 ; 02: plane a table: [0xC000]
+    dc.b 0x3E ; 03: window table:  [0xF800]
+    dc.b 0x07 ; 04: plane b table: [0xE000]
+    dc.b 0x78 ; 05: sprite table:  [0xFE00]
+    dc.b 0x00 ; 06: unused
+    dc.b 0x00 ; 07: background color: [palette 0] [color 0]
+    dc.b 0x00 ; 08: unused
+    dc.b 0x00 ; 09: unused
+    dc.b 0x00 ; 0A: h int count: [0]
+    dc.b 0x00 ; 0B: mode 3: [ext 68k int]- [v scroll full] [h scroll full]
+    dc.b 0x00 ; 0C: mode 4: [h32 cell mode] [shadow/hilight]- [no interlace]
+    dc.b 0x3F ; 0D: h scroll table: [FC00]
+    dc.b 0x00 ; 0E: unused
+    dc.b 0x00 ; 0F: auto-increment value: [0]
+    dc.b 0x00 ; 10: plane size: [v32 cell] [h32 cell]
+    dc.b 0x00 ; 11: window h posisiton: [0]
+    dc.b 0x00 ; 12: window v position:  [0]
+    dc.b 0x00 ; 13: dma length counter low:  [0]
+    dc.b 0x00 ; 14: dma length counter high: [0]
+    dc.b 0x00 ; 15: dma source address low:  [0]
+    dc.b 0x00 ; 16: dma source address mid:  [0]
+    dc.b 0x00 ; 17: dma source address high: [0] [memory to vram]
 
 ; --------------------------------------
 ; system palette
@@ -52,3 +52,26 @@ SYS_PAL:
     dc.w 0x0000 ; color #D
     dc.w 0x0000 ; color #E
     dc.w 0x0EEE ; color #F - white [cram debug]
+
+; --------------------------------------
+; system data
+; --------------------------------------
+SYS_DATA:
+    dc.l 0x00000000 ; tile 0 - empty
+    dc.l 0x00000000
+    dc.l 0x00000000
+    dc.l 0x00000000
+    dc.l 0x00000000
+    dc.l 0x00000000
+    dc.l 0x00000000
+    dc.l 0x00000000
+
+    dc.l 0x22222222 ; tile 1 - grid
+    dc.l 0x20000000
+    dc.l 0x20000000
+    dc.l 0x20000000
+    dc.l 0x20000000
+    dc.l 0x20000000
+    dc.l 0x20000000
+    dc.l 0x20000000
+
