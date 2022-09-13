@@ -27,6 +27,15 @@ MAIN:
     jsr    LOAD_TILES_SR
     movem  (SP)+,        A0-A6/D0-D7
 
+; --------------------------------------
+; clear screen with tyle
+; --------------------------------------
+    movem  A0-A6/D0-D7,   -(SP)
+    move.l #0x1,          D0 ; tile number in vdp to fill with
+    jsr    FILL_SCREEN_SR
+    movem  (SP)+,         A0-A6/D0-D7
+
+
 MAIN_LOOP:
     jmp MAIN_LOOP
 
