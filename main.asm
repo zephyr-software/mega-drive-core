@@ -22,8 +22,18 @@ MAIN:
 ; --------------------------------------
     movem  A0-A6/D0-D7,  -(SP)
     lea    SYS_DATA,     A0
-    move.l #0x2,         D0          ; 2 tyles to load
+    move.l #0x1,         D0          ; 1 tyle to load
     move.l #0x0,         D1          ; vram tiles offset
+    jsr    LOAD_TILES_SR
+    movem  (SP)+,        A0-A6/D0-D7
+
+; --------------------------------------
+; load system font
+; --------------------------------------
+    movem  A0-A6/D0-D7,  -(SP)
+    lea    FONT_DATA,    A0
+    move.l #0x24,        D0          ; 36 tyles to load
+    move.l #0x1,         D1          ; vram tiles offset
     jsr    LOAD_TILES_SR
     movem  (SP)+,        A0-A6/D0-D7
 
@@ -48,4 +58,5 @@ EXCEPTION:
     stop #$2700 ; halt cpu
 
     include data.asm
+    include font.asm
 ROM_END:
