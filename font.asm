@@ -3,6 +3,69 @@
 ; ******************************************************************************
 
 
+ASCII_MAP:
+    dc.b 0x00   ; SPACE [ASCII 0x20]
+    dc.b 0x28   ; UNUSED
+    dc.b 0x2B   ; UNUSED
+    dc.b 0x2E   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x2C   ; UNUSED
+    dc.b 0x29   ; UNUSED
+    dc.b 0x2A   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x2F   ; UNUSED
+    dc.b 0x26   ; UNUSED
+    dc.b 0x30   ; UNUSED
+    dc.b 0x25   ; UNUSED
+    dc.b 0x31   ; UNUSED
+    dc.b 0x1B   ; 0
+    dc.b 0x1C   ; 1
+    dc.b 0x1D   ; 2
+    dc.b 0x1E   ; 3
+    dc.b 0x1F   ; 4
+    dc.b 0x20   ; 5
+    dc.b 0x21   ; 6
+    dc.b 0x22   ; 7
+    dc.b 0x23   ; 8
+    dc.b 0x24   ; 9
+    dc.b 0x2D   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x27   ; UNUSED
+    dc.b 0x00   ; UNUSED
+    dc.b 0x01   ; A
+    dc.b 0x02   ; B
+    dc.b 0x03   ; C
+    dc.b 0x04   ; D
+    dc.b 0x05   ; E
+    dc.b 0x06   ; F
+    dc.b 0x07   ; G
+    dc.b 0x08   ; H
+    dc.b 0x09   ; I
+    dc.b 0x0A   ; J
+    dc.b 0x0B   ; K
+    dc.b 0x0C   ; L
+    dc.b 0x0D   ; M
+    dc.b 0x0E   ; N
+    dc.b 0x0F   ; O
+    dc.b 0x10   ; P
+    dc.b 0x11   ; Q
+    dc.b 0x12   ; R
+    dc.b 0x13   ; S
+    dc.b 0x14   ; T
+    dc.b 0x15   ; U
+    dc.b 0x16   ; V
+    dc.b 0x17   ; W
+    dc.b 0x18   ; X
+    dc.b 0x19   ; Y
+    dc.b 0x1A   ; Z [ASCII 0x5A]
+    dc.b 0x00   ; even byte
+
+
 FONT_DATA:
 
     dc.l 0x01111100 ; A

@@ -65,3 +65,6 @@ SYS_DATA:
     dc.l 0x00000000
     dc.l 0x00000000
     dc.l 0x00000000
+
+TEST_STRING:
+    dc.b "SEGA MEGA DRIVE", 0

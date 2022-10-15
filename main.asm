@@ -5,7 +5,7 @@
     include header.asm
     include init.asm
     include graphics.asm
-
+    include text.asm
 
 MAIN:
 ; --------------------------------------
@@ -41,10 +41,21 @@ MAIN:
 ; clear screen with tyle
 ; --------------------------------------
     movem  A0-A6/D0-D7,   -(SP)
-    move.l #0x1,          D0 ; tile number in vdp to fill with
+    move.l #0x0,          D0 ; tile number in vdp to fill with
     jsr    FILL_SCREEN_SR
     movem  (SP)+,         A0-A6/D0-D7
 
+; --------------------------------------
+; draw text
+; --------------------------------------
+    move.w #0x8702, 0x00C00004
+
+    movem  A0-A6/D0-D7,   -(SP)
+    lea TEST_STRING, A0
+    move.l #0x0,     A1
+    move.l #0x1,     A2
+    jsr DRAW_TEXT_SR
+    movem  (SP)+,         A0-A6/D0-D7
 
 MAIN_LOOP:
     jmp MAIN_LOOP
@@ -56,6 +67,7 @@ VINT:
 
 EXCEPTION:
     stop #$2700 ; halt cpu
+
 
     include data.asm
     include font.asm
