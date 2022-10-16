@@ -45,7 +45,7 @@ LOAD_PALLETE_LOOP:
 ; load tiles into vram
 ; ------------------------------------------------------------------------------
 ; input params:
-; A0 - tyle data address
+; A0 - tile data address
 ; D0 - total tiles
 ; D1 - tile offset in vram
 ;
@@ -95,7 +95,7 @@ LOAD_TYLES__LOOP:
 ; move.l #0x0,          D0          ; tile number in vdp to fill with
 ; jsr    FILL_SCREEN_SR
 ; movem  (SP)+,         A0-A6/D0-D7
-; ============================================================================== 
+; ==============================================================================
 FILL_SCREEN_SR:
     move.w #0x8F02,     0x00C00004 ; set vdp auto increment on
     move.l #0x40000003, 0x00C00004 ; set vdp to write to vram 0xC000
