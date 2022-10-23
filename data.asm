@@ -66,5 +66,7 @@ SYS_DATA:
     dc.l 0x00000000
     dc.l 0x00000000
 
-TEST_STRING:
-    dc.b "SEGA MEGA DRIVE", 0
+MEGA_DRIVE_STR:
+    dc.b "MEGA DRIVE", 0
+ZEPHYR_STR:
+    dc.b "ZEPHYR", 0

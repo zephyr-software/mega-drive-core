@@ -37,8 +37,8 @@ FILL_SCREEN_MACRO: MACRO tyle_num
 DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord
     movem  A0-A6/D0-D7, -(SP)
     lea str_addr,       A0
-    move.l #x_cord,     A1
-    move.l #y_cord,     A2
+    move.l #x_cord,     D0
+    move.l #y_cord,     D1
     jsr DRAW_TEXT_SR
     movem  (SP)+,       A0-A6/D0-D7
 
