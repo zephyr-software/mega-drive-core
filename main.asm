@@ -12,6 +12,7 @@ MAIN:
     LOAD_TYLES_MACRO   FONT_DATA      ,0x24 ,0x1 ;load system font
     FILL_SCREEN_MACRO  0x0                       ;clear screen with 0 tyle
     DRAW_TEXT_MACRO    MEGA_DRIVE_STR ,0x0 ,0x0  ;draw text - mega drive
+    SLEEP_SEC_MACRO    0x2                       ;sleep 2 sec
     DRAW_TEXT_MACRO    ZEPHYR_STR     ,0x0 ,0x1  ;draw text - zephyr
 
 MAIN_LOOP:
@@ -27,4 +28,5 @@ EXCEPTION:
 
     include data.asm
     include font.asm
+    include memory.asm
 ROM_END:

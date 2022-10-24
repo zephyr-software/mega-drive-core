@@ -3,6 +3,7 @@
 ; ******************************************************************************
     include graphics.asm
     include text.asm
+    include time.asm
 
 ; ==============================================================================
 ; graphic macros
@@ -41,5 +42,14 @@ DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord
     move.l #y_cord,     D1
     jsr DRAW_TEXT_SR
     movem  (SP)+,       A0-A6/D0-D7
+    ENDM
 
+; ==============================================================================
+; time macros
+; ==============================================================================
+SLEEP_SEC_MACRO: MACRO sec_num
+    movem A0-A6/D0-D7, -(SP)
+    move.l #sec_num, D0
+    jsr SLEEP_SEC_SR
+    movem (SP)+, A0-A6/D0-D7
     ENDM
