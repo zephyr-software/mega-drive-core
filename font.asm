@@ -3,6 +3,24 @@
 ; ******************************************************************************
 
 
+ASCII_NUMBER_MAP:
+    dc.b 0x30 ; 0
+    dc.b 0x31 ; 1
+    dc.b 0x32 ; 2
+    dc.b 0x33 ; 3
+    dc.b 0x34 ; 4
+    dc.b 0x35 ; 5
+    dc.b 0x35 ; 6
+    dc.b 0x36 ; 7
+    dc.b 0x37 ; 8
+    dc.b 0x38 ; 9
+    dc.b 0x41 ; A
+    dc.b 0x42 ; B
+    dc.b 0x43 ; C
+    dc.b 0x44 ; D
+    dc.b 0x45 ; E
+    dc.b 0x46 ; F
+
 ASCII_MAP:
     dc.b 0x00   ; SPACE [ASCII 0x20]
     dc.b 0x28   ; UNUSED

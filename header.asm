@@ -11,7 +11,7 @@
     dc.b "J               "                                 ; i/o support
     dc.l 0x00000000                                         ; rom start address
     dc.l ROM_END                                            ; rom end address
-    dc.l 0x00FF0000                                         ; ram start address
+    dc.l RAM_MAP                                            ; ram start address
     dc.l 0x00FFFFFF                                         ; ram end address
     dc.l 0x00000000                                         ; sram enabled
     dc.l 0x00000000                                         ; unused
