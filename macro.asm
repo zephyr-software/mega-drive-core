@@ -32,6 +32,13 @@ FILL_SCREEN_MACRO: MACRO tyle_num
     movem  (SP)+,         A0-A6/D0-D7
     ENDM
 
+SET_BG_COLOR_MACRO: MACRO color_num
+    movem A0-A6/D0-D7,   -(SP)
+    move.l #color_num,   D0
+    jsr SET_BG_COLOR_SR
+    movem (SP)+,         A0-A6/D0-D7
+    ENDM
+
 ; ==============================================================================
 ; text macros
 ; ==============================================================================

@@ -114,3 +114,24 @@ CLEAR_SCREEN_PLANE_B:
 
     move.w #0x8F00,     0x00C00004           ; set vdp auto increment off
     rts
+
+; ==============================================================================
+; SET_BG_COLOR_SR - set background color subroutine
+;
+; ------------------------------------------------------------------------------
+; input params:
+; D0 - color number in palette 0
+;
+; output params: no
+; ------------------------------------------------------------------------------
+; call example:
+; movem A0-A6/D0-D7, -(SP)
+; move.l #0x0, D0          ; color in palette 0
+; jsr SET_BG_COLOR_SR
+; movem (SP)+, A0-A6/D0-D7
+; ==============================================================================
+SET_BG_COLOR_SR:
+    addi.w #0x08700, D0
+    move.w D0, 0x00C00004
+
+    rts

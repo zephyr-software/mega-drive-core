@@ -11,22 +11,23 @@ MAIN:
     LOAD_TYLES_MACRO SYS_DATA, 0x1, 0x0      ;load system tiles
     LOAD_TYLES_MACRO FONT_DATA, 0x24, 0x1    ;load system font
     FILL_SCREEN_MACRO 0x0                    ;clear screen with 0 tyle
-    DRAW_TEXT_MACRO MEGA_DRIVE_STR, 0x0, 0x0 ;draw text - mega drive
+    SET_BG_COLOR_MACRO 0x4                   ;set background color 
     SLEEP_SEC_MACRO 0x1                      ;sleep 1 sec
-    DRAW_TEXT_MACRO ZEPHYR_STR, 0x0, 0x1     ;draw text - zephyr
 
-    lea RAM_COUNTER, A0
-    clr.l D0
-    move.l D0, (A0) ; timer 0
+    SET_BG_COLOR_MACRO 0x0                   ;set background color
+    DRAW_TEXT_MACRO MEGA_DRIVE_STR, 0x0, 0x0 ;draw text - mega drive
+    DRAW_TEXT_MACRO ZEPHYR_STR, 0x0, 0x1     ;draw text - zephyr
+    SLEEP_SEC_MACRO 0x1                      ;sleep 1 sec
+
+    move.l #0x0, RAM_COUNTER; start counter from 0
 MAIN_LOOP:
     NUM_TO_TEXT_MACRO RAM_COUNTER, RAM_COUNTER_STR ;convert number to text
     SLEEP_SEC_MACRO 0x1                            ;sleep 1 sec
     DRAW_TEXT_MACRO RAM_COUNTER_STR ,0x17,0x0      ;draw text - counter
 
-    lea RAM_COUNTER, A0 ; increase timer
-    move.l (A0), D0
-    add.l #0x1, D0
-    move.l D0, (A0)
+    move.l RAM_COUNTER, D0
+    addq.l #0x1, D0                                ;increase counter by 1
+    move.l D0, RAM_COUNTER
 
     jmp MAIN_LOOP
 
