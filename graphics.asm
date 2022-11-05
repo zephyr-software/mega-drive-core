@@ -14,11 +14,11 @@
 ; output params: no
 ; ------------------------------------------------------------------------------
 ; call example:
-; movem  A0-A6/D0-D7,    -(SP)
-; lea    PAL,            A0
-; move.l #0x0,           D0
-; jsr    LOAD_PALETTE_SR
-; movem  (SP)+,          A0-A6/D0-D7
+; movem.l A0-A6/D0-D7, -(SP)
+; lea PAL, A0
+; move.l #0x0, D0
+; jsr LOAD_PALETTE_SR
+; movem.l (SP)+, A0-A6/D0-D7
 ; ==============================================================================
 LOAD_PALETTE_SR:
     move.l #0xC0000000, D1; cram address 0x0
@@ -52,12 +52,12 @@ LOAD_PALLETE_LOOP:
 ; output params: no
 ; ------------------------------------------------------------------------------
 ; call example:
-; movem  A0-A6/D0-D7,  -(SP)
-; lea    IMAGE_DATA,   A0
-; move.l #0x4,         D0          ; 4 tyles
-; move.l #0x2,         D1          ; vram tiles offset
-; jsr    LOAD_TILES_SR
-; movem  (SP)+,        A0-A6/D0-D7
+; movem.l A0-A6/D0-D7, -(SP)
+; lea IMAGE_DATA, A0
+; move.l #0x4, D0             ; 4 tyles
+; move.l #0x2, D1             ; vram tiles offset
+; jsr LOAD_TILES_SR
+; movem.l (SP)+, A0-A6/D0-D7
 ; ==============================================================================
 LOAD_TILES_SR:
     move.l #0x40000000, D2                     ; vram address 0x0
@@ -91,10 +91,10 @@ LOAD_TYLES__LOOP:
 ; output params: no
 ; ------------------------------------------------------------------------------
 ; call example:
-; movem  A0-A6/D0-D7,   -(SP)
-; move.l #0x0,          D0          ; tile number in vdp to fill with
-; jsr    FILL_SCREEN_SR
-; movem  (SP)+,         A0-A6/D0-D7
+; movem.l A0-A6/D0-D7, -(SP)
+; move.l #0x0, D0             ; tile number in vdp to fill with
+; jsr FILL_SCREEN_SR
+; movem.l  (SP)+, A0-A6/D0-D7
 ; ==============================================================================
 FILL_SCREEN_SR:
     move.w #0x8F02,     0x00C00004 ; set vdp auto increment on
@@ -125,10 +125,10 @@ CLEAR_SCREEN_PLANE_B:
 ; output params: no
 ; ------------------------------------------------------------------------------
 ; call example:
-; movem A0-A6/D0-D7, -(SP)
-; move.l #0x0, D0          ; color in palette 0
+; movem.l A0-A6/D0-D7, -(SP)
+; move.l #0x0, D0            ; color in palette 0
 ; jsr SET_BG_COLOR_SR
-; movem (SP)+, A0-A6/D0-D7
+; movem.l (SP)+, A0-A6/D0-D7
 ; ==============================================================================
 SET_BG_COLOR_SR:
     addi.w #0x08700, D0

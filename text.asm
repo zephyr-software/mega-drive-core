@@ -97,6 +97,6 @@ DIGIT_TO_TEXT:
 
     dbra D7, DIGIT_TO_TEXT
 
-    move.b #0x20, (A1)
+    move.b #0x0, (A1)
 
     rts

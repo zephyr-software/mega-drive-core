@@ -6,15 +6,6 @@
 INIT: ; entry point address in cpu vector table
 
 ; --------------------------------------
-; clear ram
-; --------------------------------------
-    move.l #0x00FF0000, A0 ; start of ram
-    move.l #0x00003FFF, D0 ; longwords to repeat
-CLR_RAM:
-    move.l #0x00000000, (A0)+
-    dbra   D0, CLR_RAM
-
-; --------------------------------------
 ; pass trade mark security signature
 ; --------------------------------------
     move.l #0x00000000, D0
@@ -40,11 +31,12 @@ VDP_REG_COPY:
     add.w  #0x0100, D1         ; set vdp register command [next register]
     dbra   D0,      VDP_REG_COPY
 
-; --------------------------------------
+; -------------------------------------
 ; clear registers
-; --------------------------------------
-    move.l  #0x00FF0000, A0          ; start of ram with 0 value
-    movem.l (A0),        D0-D7/A0-A6 ; a7 stack pointer
+; -------------------------------------
+    lea RAM_ADDR, A0
+    move.l #0x00000000, (A0)
+    movem.l  (A0), A0-A6/D0-D7
 
 ; --------------------------------------
 ; init status register

@@ -2,7 +2,7 @@
 ; m68k interrupt vector table
 ; ******************************************************************************
 
-    dc.l   0x00FFFF00 ; stack pointer - 255 bytes
+    dc.l   STACK_ADDR ; stack address
     dc.l   INIT       ; program start
     dc.l   EXCEPTION  ; bus error
     dc.l   EXCEPTION  ; address error
@@ -15,9 +15,9 @@
     dc.l   EXCEPTION  ; line-a emulator
     dc.l   EXCEPTION  ; line-f emulator
     dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
+    dc.l   EXCEPTION  ; co-processor protocol violation
+    dc.l   EXCEPTION  ; format error
+    dc.l   EXCEPTION  ; uninitialized interrupt
     dc.l   EXCEPTION  ; unused - reserved
     dc.l   EXCEPTION  ; unused - reserved
     dc.l   EXCEPTION  ; unused - reserved
@@ -50,17 +50,17 @@
     dc.l   EXCEPTION  ; trap #13 exception
     dc.l   EXCEPTION  ; trap #14 exception
     dc.l   EXCEPTION  ; trap #15 exception
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
-    dc.l   EXCEPTION  ; unused - reserved
+    dc.l   EXCEPTION  ; (fp) branch or set on unordered condition
+    dc.l   EXCEPTION  ; (fp) inexact result
+    dc.l   EXCEPTION  ; (fp) divide by zero
+    dc.l   EXCEPTION  ; (fp) underflow
+    dc.l   EXCEPTION  ; (fp) operand error
+    dc.l   EXCEPTION  ; (fp) overflow
+    dc.l   EXCEPTION  ; (fp) signaling nan
+    dc.l   EXCEPTION  ; (fp) unimplemented data type
+    dc.l   EXCEPTION  ; mmu configuration error
+    dc.l   EXCEPTION  ; mmu illegal operation error
+    dc.l   EXCEPTION  ; mmu access violation error
     dc.l   EXCEPTION  ; unused - reserved
     dc.l   EXCEPTION  ; unused - reserved
     dc.l   EXCEPTION  ; unused - reserved
