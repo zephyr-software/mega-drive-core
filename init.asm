@@ -1,9 +1,20 @@
 ; ******************************************************************************
 ; system initialization code section
+;
 ; ******************************************************************************
+
+    include vector.asm
+    include header.asm
+    include macro.asm
 
 
 INIT: ; entry point address in cpu vector table
+
+; --------------------------------------
+; init status register
+; --------------------------------------
+    move #0x0600, SR ; user byte  : 0x0
+                     ; system byte: no trace mode, user mode; interrupt level 6
 
 ; --------------------------------------
 ; pass trade mark security signature
@@ -32,16 +43,10 @@ VDP_REG_COPY:
     dbra   D0,      VDP_REG_COPY
 
 ; -------------------------------------
-; clear registers
+; clear ram and m68k
 ; -------------------------------------
-    lea RAM_ADDR, A0
-    move.l #0x00000000, (A0)
-    movem.l  (A0), A0-A6/D0-D7
+    FILL_RAM_MACRO RAM_START, STACK_END - 1, 0x00 ; fill ram with 0
+    CLR_M68K_MACRO                                ; clear m68k regs
 
-; --------------------------------------
-; init status register
-; --------------------------------------
-    move #0x2700, SR ; no trace, a7 is interrupt stack pointer, no interrupts,
-                     ; clear condition code bits
 
     jmp MAIN

@@ -1,14 +1,12 @@
 ; ******************************************************************************
 ; main code section
+;
 ; ******************************************************************************
-    include vector.asm
-    include header.asm
+
     include init.asm
-    include macro.asm
+
 
 MAIN:
-    FILL_RAM_MACRO RAM_START, STACK_END - 1, 0x00 ; fill ram with 0
-
     LOAD_PALETTE_MACRO SYS_PAL, 0x0          ; load system palette colors
     LOAD_TYLES_MACRO SYS_DATA, 0x1, 0x0      ; load system tiles
     LOAD_TYLES_MACRO FONT_DATA, 0x24, 0x1    ; load system font
