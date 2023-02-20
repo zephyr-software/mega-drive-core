@@ -5,11 +5,30 @@
 
 
 ; ==============================================================================
+; INIT_M68K_SREG_SR: init motorola 68000 status register [SR] subroutine
+;
+; set system byte: no trace, supervisor mode; irq level 7
+; set user byte  : 0x0
+; ------------------------------------------------------------------------------
+; input params : no
+; output params: no
+; ------------------------------------------------------------------------------
+; call example:
+; jsr INIT_M68K_SREG_SR
+; ==============================================================================
+INIT_M68K_SREG_SR:
+    move #0x2700, SR ; system byte: no trace, supervisor mode; irq level 7
+                     ; user byte  : 0x0
+
+    rts
+
+
+; ==============================================================================
 ; CLR_M68K_SR: clear motorola 68000 registers subroutine
 ; set 0x0 to all registers a0-a6 / d0-d7
 ; ------------------------------------------------------------------------------
-; input params: no;
-; output params: no;
+; input params : no
+; output params: no
 ; ------------------------------------------------------------------------------
 ; call example:
 ; jsr CLR_M68K_SR

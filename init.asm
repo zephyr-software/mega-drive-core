@@ -10,11 +10,8 @@
 
 INIT: ; entry point address in cpu vector table
 
-; --------------------------------------
-; init status register
-; --------------------------------------
-    move #0x0600, SR ; user byte  : 0x0
-                     ; system byte: no trace mode, user mode; interrupt level 6
+    INIT_M68K_SREG_MACRO ; no trace, supervisor mode; irq level 7, user byte 0
+    CLR_M68K_MACRO       ; clear m68k regs
 
 ; --------------------------------------
 ; pass trade mark security signature
@@ -42,11 +39,8 @@ VDP_REG_COPY:
     add.w  #0x0100, D1         ; set vdp register command [next register]
     dbra   D0,      VDP_REG_COPY
 
-; -------------------------------------
-; clear ram and m68k
-; -------------------------------------
+
     FILL_RAM_MACRO RAM_START, STACK_END - 1, 0x00 ; fill ram with 0
     CLR_M68K_MACRO                                ; clear m68k regs
-
 
     jmp MAIN
