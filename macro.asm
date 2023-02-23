@@ -4,6 +4,7 @@
 ; ******************************************************************************
 
     include m68k.asm
+    include system.asm
     include ram.asm
     include graphics.asm
     include text.asm
@@ -19,6 +20,13 @@ INIT_M68K_SREG_MACRO: MACRO
 
 CLR_M68K_MACRO: MACRO
     jsr CLR_M68K_SR
+    ENDM
+
+; ==============================================================================
+; system macros
+; ==============================================================================
+GET_MD_VERSION_MACRO: MACRO
+    jsr GET_MD_VERSION_SR
     ENDM
 
 ; ==============================================================================

@@ -16,11 +16,8 @@ INIT: ; entry point address in cpu vector table
 ; --------------------------------------
 ; pass trade mark security signature
 ; --------------------------------------
-    move.l #0x00000000, D0
-    move.b 0x00A10001,  D0 ; mega drive hardware version [bits 0-3]
-    andi.b #%00001111,  D0 ; mask version
-
-    cmp.b  #0x00,       D0 ; if version 0, skip tmss signature
+    GET_MD_VERSION_MACRO ; get mega drive hardware version
+    cmp.b  #0x00, D0     ; if version 0, skip tmss signature
     beq.s  NO_TMSS
 
     move.l #'SEGA',     0x00A14000 ; pass tmss

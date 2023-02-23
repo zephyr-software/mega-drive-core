@@ -66,6 +66,14 @@ SYS_DATA:
     dc.l 0x00000000
     dc.l 0x00000000
 
+; --------------------------------------
+; system constants
+; --------------------------------------
+SYSTEM_IO_VERSION_NUMBER_ADDR: equ 0x00A10001
+
+; --------------------------------------
+; system strings
+; --------------------------------------
 MEGA_DRIVE_STR:
     dc.b "MEGA DRIVE", 0
 ZEPHYR_STR:
