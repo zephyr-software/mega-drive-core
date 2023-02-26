@@ -29,6 +29,10 @@ GET_MD_VERSION_MACRO: MACRO
     jsr GET_MD_VERSION_SR
     ENDM
 
+GET_MD_CPU_MODE_MACRO: MACRO
+    jsr GET_MD_CPU_MODE_SR
+    ENDM
+
 ; ==============================================================================
 ; ram macros
 ; ==============================================================================

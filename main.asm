@@ -19,6 +19,24 @@ MAIN:
     DRAW_TEXT_MACRO ZEPHYR_STR, 0x0, 0x1     ; draw text - zephyr
     SLEEP_SEC_MACRO 0x1                      ; sleep 1 sec
 
+; --------------------------------------
+; check and print cpu mode
+; --------------------------------------
+    GET_MD_CPU_MODE_MACRO ; get md cpu mode
+    cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
+    beq.s DRAW_MD_CPU_PAL_INFO
+
+    DRAW_TEXT_MACRO CPU_NTSC_INFO_STR, 0x0, 0x3 ; draw text - md cpu ntsc info
+    jmp DRAW_MD_CPU_INFO_END
+
+DRAW_MD_CPU_PAL_INFO:
+    DRAW_TEXT_MACRO CPU_PAL_INFO_STR, 0x0, 0x3  ; draw text - md cpu pal info
+
+DRAW_MD_CPU_INFO_END:
+
+; --------------------------------------
+; main loop
+; --------------------------------------
     move.l #0x0, RAM_COUNTER                 ; start counter from 0
 MAIN_LOOP:
     NUM_TO_TEXT_MACRO RAM_COUNTER, RAM_COUNTER_STR ; convert number to text
