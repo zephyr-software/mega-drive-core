@@ -33,9 +33,9 @@ VDP_REG:
     dc.b 0x00 ; 17: dma source address high: [0] [memory to vram]
 
 ; --------------------------------------
-; system palette
+; system palette 0
 ; --------------------------------------
-SYS_PAL:
+SYS_PAL0:
     dc.w 0x0000 ; color #0 - black
     dc.w 0x0E00 ; color #1 - blue
     dc.w 0x00E0 ; color #2 - green
@@ -52,6 +52,27 @@ SYS_PAL:
     dc.w 0x0000 ; color #D
     dc.w 0x0000 ; color #E
     dc.w 0x0EEE ; color #F - white [cram debug]
+
+; --------------------------------------
+; system palette 1
+; --------------------------------------
+SYS_PAL1:
+    dc.w 0x0000 ; color #0 - black
+    dc.w 0x00E0 ; color #2 - green
+
+; --------------------------------------
+; system palette 2
+; --------------------------------------
+SYS_PAL2:
+    dc.w 0x0000 ; color #0 - black
+    dc.w 0x0E0E ; color #4 - purple
+
+; --------------------------------------
+; system palette 3
+; --------------------------------------
+SYS_PAL3:
+    dc.w 0x0000 ; color #0 - black
+    dc.w 0x00EE ; color #5 - yellow
 
 ; --------------------------------------
 ; system data
@@ -74,11 +95,13 @@ SYSTEM_IO_VERSION_NUMBER_ADDR: equ 0x00A10001
 ; --------------------------------------
 ; system strings
 ; --------------------------------------
-MEGA_DRIVE_STR:
-    dc.b "MEGA DRIVE", 0
-ZEPHYR_STR:
-    dc.b "ZEPHYR", 0
+MEGA_DRIVE_CORE_STR:
+    dc.b "MEGA DRIVE CORE", 0
+UPTIME_STR:
+    dc.b "UPTIME", 0
 
+CPU_MODE_STR:
+    dc.b "CPU MODE", 0
 CPU_NTSC_INFO_STR:
     dc.b "NTSC CPU CLOCK 7 67 MHZ ", 0
 CPU_PAL_INFO_STR:

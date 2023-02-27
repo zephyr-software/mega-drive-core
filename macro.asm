@@ -48,10 +48,11 @@ FILL_RAM_MACRO: MACRO start_addr, end_addr, fill_byte
 ; ==============================================================================
 ; graphic macros
 ; ==============================================================================
-LOAD_PALETTE_MACRO: MACRO pal_addr pal_num
+LOAD_PALETTE_MACRO: MACRO pal_addr pal_num total
     movem.l A0-A6/D0-D7, -(SP)
     lea pal_addr, A0
     move.l #pal_num, D0
+    move.l #total, D1
     jsr LOAD_PALETTE_SR
     movem.l (SP)+, A0-A6/D0-D7
     ENDM
@@ -82,11 +83,12 @@ SET_BG_COLOR_MACRO: MACRO color_num
 ; ==============================================================================
 ; text macros
 ; ==============================================================================
-DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord
+DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord pal_num
     movem.l A0-A6/D0-D7, -(SP)
     lea str_addr, A0
-    move.l #x_cord, D0
-    move.l #y_cord, D1
+    move.l #x_cord,  D0
+    move.l #y_cord,  D1
+    move.l #pal_num, D2
     jsr DRAW_TEXT_SR
     movem.l (SP)+, A0-A6/D0-D7
     ENDM
