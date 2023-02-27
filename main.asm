@@ -24,19 +24,36 @@ MAIN:
     SLEEP_SEC_MACRO 0x1                                ; sleep 1 sec
 
 ; --------------------------------------
+; check and print md model
+; --------------------------------------
+    DRAW_TEXT_MACRO MD_MODEL_STR, 0x0, 0x3, 0x2 ; md model
+
+    GET_MD_MODEL_MACRO ; get md model
+    cmp.b  #0x01, D0   ; 0: domestic model / 1: overseas model
+    beq.s DRAW_MD_OVERSEAS_MODEL_INFO
+
+    DRAW_TEXT_MACRO MD_DOMESTIC_MODEL_STR, 0x9, 0x3, 0x1 ; domestic model
+    jmp DRAW_MD_MODEL_INFO_END
+
+DRAW_MD_OVERSEAS_MODEL_INFO:
+    DRAW_TEXT_MACRO MD_OVERSEAS_MODEL_STR, 0x9, 0x3, 0x1 ; overseas model
+
+DRAW_MD_MODEL_INFO_END:
+
+; --------------------------------------
 ; check and print cpu mode
 ; --------------------------------------
-    DRAW_TEXT_MACRO CPU_MODE_STR, 0x0, 0x3, 0x2      ; text - cpu mode
+    DRAW_TEXT_MACRO CPU_MODE_STR, 0x0, 0x4, 0x2      ; text - cpu mode
 
     GET_MD_CPU_MODE_MACRO ; get md cpu mode
     cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
     beq.s DRAW_MD_CPU_PAL_INFO
 
-    DRAW_TEXT_MACRO CPU_NTSC_INFO_STR, 0x9, 0x3, 0x1 ; text - md cpu ntsc info
+    DRAW_TEXT_MACRO CPU_NTSC_INFO_STR, 0x9, 0x4, 0x1 ; text - md cpu ntsc info
     jmp DRAW_MD_CPU_INFO_END
 
 DRAW_MD_CPU_PAL_INFO:
-    DRAW_TEXT_MACRO CPU_PAL_INFO_STR, 0x9, 0x3, 0x1  ; text - md cpu pal info
+    DRAW_TEXT_MACRO CPU_PAL_INFO_STR, 0x9, 0x4, 0x1  ; text - md cpu pal info
 
 DRAW_MD_CPU_INFO_END:
 

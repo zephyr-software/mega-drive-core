@@ -28,6 +28,7 @@ GET_MD_VERSION_SR:
 
 ; ==============================================================================
 ; GET_MD_CPU_MODE_SR - get mega drive central processor unit mode subroutine
+; get mega drive central processor unit mode
 ; ------------------------------------------------------------------------------
 ; input params : no
 ; output params: D0 - cpu mode
@@ -44,6 +45,28 @@ GET_MD_CPU_MODE_SR:
 
     bclr.l #0x7, D0 ; clear mode bit  [domestic model / overseas model]
     lsr.b  #0x6, D0 ; logical shift to 6 bits right
-               ; D0 - contains result
+               ; D0 - contains cpu mode
+
+    rts
+
+; ==============================================================================
+; GET_MD_MODEL_SR - get mega drive model subroutine
+; get mega drive model
+; ------------------------------------------------------------------------------
+; input params : no
+; output params: D0 - model
+;                     0: domestic model
+;                     1: overseas model
+; ------------------------------------------------------------------------------
+; call example:
+; jsr GET_MD_MODEL_SR
+; ==============================================================================
+GET_MD_MODEL_SR:
+    clr.l D0
+
+    move.b SYSTEM_IO_VERSION_NUMBER_ADDR, D0 ; md model [bit 7]
+
+    lsr.b  #0x7, D0 ; logical shift to 7 bits right
+               ; D0 - contains model
 
     rts
