@@ -41,19 +41,31 @@ DRAW_MD_OVERSEAS_MODEL_INFO:
 DRAW_MD_MODEL_INFO_END:
 
 ; --------------------------------------
+; check and print md version
+; --------------------------------------
+    DRAW_TEXT_MACRO MD_VER_STR, 0x0, 0x4, 0x2 ; md ver
+
+    GET_MD_VERSION_MACRO ; get mega drive hardware version
+    add.b #0x30, D0 ; add ascii offset 
+    lsl.w #0x08, D0 ; logical shift to 8 bits right
+    move.w D0, RAM_MD_VER
+
+    DRAW_TEXT_MACRO RAM_MD_VER, 0x9, 0x4, 0x1 ; overseas model
+
+; --------------------------------------
 ; check and print cpu mode
 ; --------------------------------------
-    DRAW_TEXT_MACRO CPU_MODE_STR, 0x0, 0x4, 0x2      ; text - cpu mode
+    DRAW_TEXT_MACRO CPU_MODE_STR, 0x0, 0x6, 0x2      ; text - cpu mode
 
     GET_MD_CPU_MODE_MACRO ; get md cpu mode
     cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
     beq.s DRAW_MD_CPU_PAL_INFO
 
-    DRAW_TEXT_MACRO CPU_NTSC_INFO_STR, 0x9, 0x4, 0x1 ; text - md cpu ntsc info
+    DRAW_TEXT_MACRO CPU_NTSC_INFO_STR, 0x9, 0x6, 0x1 ; text - md cpu ntsc info
     jmp DRAW_MD_CPU_INFO_END
 
 DRAW_MD_CPU_PAL_INFO:
-    DRAW_TEXT_MACRO CPU_PAL_INFO_STR, 0x9, 0x4, 0x1  ; text - md cpu pal info
+    DRAW_TEXT_MACRO CPU_PAL_INFO_STR, 0x9, 0x6, 0x1  ; text - md cpu pal info
 
 DRAW_MD_CPU_INFO_END:
 
