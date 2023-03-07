@@ -99,8 +99,8 @@ DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord pal_num
 
 NUM_TO_TEXT_MACRO: MACRO num_ram, num_str_ram
     movem.l A0-A6/D0-D7, -(SP)
-    lea RAM_COUNTER, A0
-    lea RAM_COUNTER_STR, A1
+    lea num_ram, A0
+    lea num_str_ram, A1
     jsr NUM_TO_TEXT_SR
     movem.l (SP)+, A0-A6/D0-D7
     ENDM

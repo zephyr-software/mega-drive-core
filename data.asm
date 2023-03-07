@@ -108,7 +108,7 @@ MD_OVERSEAS_MODEL_STR:
     dc.b "OVERSEAS MODEL", 0
 
 MD_VER_STR:
-    dc.b "MD VER ", 0
+    dc.b "MD VER", 0
 
 CPU_MODE_STR:
     dc.b "CPU MODE", 0
@@ -116,3 +116,6 @@ CPU_NTSC_INFO_STR:
     dc.b "NTSC CPU CLOCK 7 67 MHZ", 0
 CPU_PAL_INFO_STR:
     dc.b "PAL CPU CLOCK 7 60 MHZ", 0
+
+CPU_M68K_SR_STR:
+    dc.b "M68K SR", 0

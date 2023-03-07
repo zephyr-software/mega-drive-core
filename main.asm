@@ -70,6 +70,18 @@ DRAW_MD_CPU_PAL_INFO:
 DRAW_MD_CPU_INFO_END:
 
 ; --------------------------------------
+; print status register
+; --------------------------------------
+    DRAW_TEXT_MACRO CPU_M68K_SR_STR, 0x0, 0x7, 0x2 ; M68K SR
+
+    clr.l D0
+    move.w SR, D0
+    move.l D0, RAM_M68K_SR
+
+    NUM_TO_TEXT_MACRO RAM_M68K_SR, RAM_M68K_SR_STR ; convert number to text
+    DRAW_TEXT_MACRO RAM_M68K_SR_STR, 0x9, 0x7, 0x1 ; status register value
+
+; --------------------------------------
 ; main loop
 ; --------------------------------------
     move.l #0x0, RAM_COUNTER                        ; start counter from 0
