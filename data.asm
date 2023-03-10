@@ -110,12 +110,48 @@ MD_OVERSEAS_MODEL_STR:
 MD_VER_STR:
     dc.b "MD VER", 0
 
-CPU_MODE_STR:
-    dc.b "CPU MODE", 0
-CPU_NTSC_INFO_STR:
+M68K_MODE_STR:
+    dc.b "MODE", 0
+M68K_NTSC_INFO_STR:
     dc.b "NTSC CPU CLOCK 7 67 MHZ", 0
-CPU_PAL_INFO_STR:
+M68K_PAL_INFO_STR:
     dc.b "PAL CPU CLOCK 7 60 MHZ", 0
 
+MOTOROLA_68000_STR:
+    dc.b "MOTOROLA 68000", 0
 CPU_M68K_SR_STR:
-    dc.b "M68K SR", 0
+    dc.b "SR", 0
+
+CPU_M68K_D0_STR:
+    dc.b "D0", 0
+CPU_M68K_D1_STR:
+    dc.b "D1", 0
+CPU_M68K_D2_STR:
+    dc.b "D2", 0
+CPU_M68K_D3_STR:
+    dc.b "D3", 0
+CPU_M68K_D4_STR:
+    dc.b "D4", 0
+CPU_M68K_D5_STR:
+    dc.b "D5", 0
+CPU_M68K_D6_STR:
+    dc.b "D6", 0
+CPU_M68K_D7_STR:
+    dc.b "D7", 0
+
+CPU_M68K_A0_STR:
+    dc.b "A0", 0
+CPU_M68K_A1_STR:
+    dc.b "A1", 0
+CPU_M68K_A2_STR:
+    dc.b "A2", 0
+CPU_M68K_A3_STR:
+    dc.b "A3", 0
+CPU_M68K_A4_STR:
+    dc.b "A4", 0
+CPU_M68K_A5_STR:
+    dc.b "A5", 0
+CPU_M68K_A6_STR:
+    dc.b "A6", 0
+CPU_M68K_A7_STR:
+    dc.b "A7", 0

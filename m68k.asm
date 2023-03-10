@@ -53,3 +53,19 @@ CLR_M68K_SR:
              ; A7 - stack pointer
 
     rts
+
+
+; ==============================================================================
+; SAVE_M68K_REGS_SR: save motorola 68000 registers subroutine
+; save motorola 68000 registers a0-a7 / d0-d7 to ram
+; ------------------------------------------------------------------------------
+; input params : no
+; output params: no
+; ------------------------------------------------------------------------------
+; call example:
+; jsr SAVE_M68K_REGS
+; ==============================================================================
+SAVE_M68K_REGS_SR:
+    movem.l D0-D7/A0-A7, RAM_M68K_D0_D7_A0_A7
+
+    rts
