@@ -96,7 +96,7 @@ SYSTEM_IO_VERSION_NUMBER_ADDR: equ 0x00A10001
 ; system strings
 ; --------------------------------------
 MEGA_DRIVE_CORE_STR:
-    dc.b "MEGA DRIVE CORE", 0
+    dc.b "MEGA DRIVE CORE ", 0
 UPTIME_STR:
     dc.b "UPTIME", 0
 
@@ -119,8 +119,12 @@ M68K_PAL_INFO_STR:
 
 MOTOROLA_68000_STR:
     dc.b "MOTOROLA 68000", 0
+
 CPU_M68K_SR_STR:
     dc.b "SR", 0
+
+CPU_M68K_PC_STR:
+    dc.b "PC", 0
 
 CPU_M68K_D0_STR:
     dc.b "D0", 0

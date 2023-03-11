@@ -72,7 +72,7 @@ DRAW_MD_CPU_INFO_END:
 ; --------------------------------------
 ; print status register info
 ; --------------------------------------
-    DRAW_TEXT_MACRO CPU_M68K_SR_STR, 0x0, 0x9, 0x2 ; M68K SR
+    DRAW_TEXT_MACRO CPU_M68K_SR_STR, 0x0, 0x9, 0x2 ; SR
 
     clr.l D0
     move.w SR, D0
@@ -80,6 +80,18 @@ DRAW_MD_CPU_INFO_END:
 
     NUM_TO_TEXT_MACRO RAM_M68K_SR, RAM_M68K_SR_STR ; convert number to text
     DRAW_TEXT_MACRO RAM_M68K_SR_STR, 0x3, 0x9, 0x1 ; status register value
+
+; --------------------------------------
+; print program counter register info
+; --------------------------------------
+    DRAW_TEXT_MACRO CPU_M68K_PC_STR, 0xC, 0x9, 0x2 ; PC
+
+RAM_PC:
+    lea(RAM_PC, PC), A0
+    move.l A0, RAM_M68K_PC
+
+    NUM_TO_TEXT_MACRO RAM_M68K_PC, RAM_M68K_PC_STR ; convert number to text
+    DRAW_TEXT_MACRO RAM_M68K_PC_STR, 0xF, 0x9, 0x1 ; program counter reg value
 
 ; --------------------------------------
 ; print d0-d7 registers info
