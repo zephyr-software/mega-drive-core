@@ -1,5 +1,6 @@
 ; ******************************************************************************
 ; data section
+;
 ; ******************************************************************************
 
 
@@ -96,19 +97,22 @@ SYSTEM_IO_VERSION_NUMBER_ADDR: equ 0x00A10001
 ; system strings
 ; --------------------------------------
 MEGA_DRIVE_CORE_STR:
-    dc.b "MEGA DRIVE CORE ", 0
+    dc.b "MEGA DRIVE CORE", 0
+MEGA_DRIVE_STR:
+    dc.b "MEGA DRIVE", 0
+
 UPTIME_STR:
     dc.b "UPTIME", 0
 
-MD_MODEL_STR:
-    dc.b "MD MODEL", 0
-MD_DOMESTIC_MODEL_STR:
+MODEL_STR:
+    dc.b "MODEL", 0
+DOMESTIC_MODEL_STR:
     dc.b "DOMESTIC MODEL", 0
-MD_OVERSEAS_MODEL_STR:
+OVERSEAS_MODEL_STR:
     dc.b "OVERSEAS MODEL", 0
 
-MD_VER_STR:
-    dc.b "MD VER", 0
+VERSION_STR:
+    dc.b "VERSION", 0
 
 M68K_MODE_STR:
     dc.b "MODE", 0

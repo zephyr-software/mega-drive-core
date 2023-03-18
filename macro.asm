@@ -91,6 +91,16 @@ SET_BG_COLOR_MACRO: MACRO color_num
 ; ==============================================================================
 ; text macros
 ; ==============================================================================
+DRAW_TEXT_MEM_CORD_MACRO: MACRO str_addr x_cord y_cord pal_num
+    movem.l A0-A6/D0-D7, -(SP)
+    lea str_addr, A0
+    move.l x_cord,  D0
+    move.l y_cord,  D1
+    move.l #pal_num, D2
+    jsr DRAW_TEXT_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
 DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord pal_num
     movem.l A0-A6/D0-D7, -(SP)
     lea str_addr, A0
@@ -116,5 +126,36 @@ SLEEP_SEC_MACRO: MACRO sec_num
     movem.l A0-A6/D0-D7, -(SP)
     move.l #sec_num, D0
     jsr SLEEP_SEC_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+; ==============================================================================
+; demo macros
+; ==============================================================================
+DEMO_LOAD_SRC_MACRO: MACRO
+    movem.l A0-A6/D0-D7, -(SP)
+    jsr DEMO_LOAD_SRC_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+DEMO_CLR_MACRO: MACRO
+    movem.l A0-A6/D0-D7, -(SP)
+    jsr DEMO_CLR_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+DEMO_DRAW_LOGO_MACRO: MACRO x_cord, y_cord
+    movem.l A0-A6/D0-D7, -(SP)
+    move.l #x_cord, D0
+    move.l #y_cord, D1
+    jsr DEMO_DRAW_LOGO_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+DEMO_DRAW_SYS_INFO_MACRO: MACRO x_cord, y_cord
+    movem.l A0-A6/D0-D7, -(SP)
+    move.l #x_cord, D0
+    move.l #y_cord, D1
+    jsr DEMO_DRAW_SYS_INFO_SR
     movem.l (SP)+, A0-A6/D0-D7
     ENDM

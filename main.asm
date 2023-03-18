@@ -4,68 +4,30 @@
 ; ******************************************************************************
 
     include init.asm
-
+    include demo.asm
 
 MAIN:
-    LOAD_PALETTE_MACRO SYS_PAL0, 0x0, 0xF ; load system palette 0 colors
-    LOAD_PALETTE_MACRO SYS_PAL1, 0x1, 0x1 ; load system palette 1 colors
-    LOAD_PALETTE_MACRO SYS_PAL2, 0x2, 0x1 ; load system palette 2 colors
-    LOAD_PALETTE_MACRO SYS_PAL3, 0x3, 0x1 ; load system palette 3 colors
+    DEMO_LOAD_SRC_MACRO ; load resources for demo
+    DEMO_CLR_MACRO      ; clear screen with 0 tyle and set background color to 0
 
-    LOAD_TYLES_MACRO SYS_DATA, 0x1, 0x0      ; load system tiles
-    LOAD_TYLES_MACRO FONT_DATA, 0x24, 0x1    ; load system font
-    FILL_SCREEN_MACRO 0x0                    ; clear screen with 0 tyle
-    SET_BG_COLOR_MACRO 0x4                   ; set background color
-    SLEEP_SEC_MACRO 0x1                      ; sleep 1 sec
-
-    SET_BG_COLOR_MACRO 0x0                             ; set background color
-    DRAW_TEXT_MACRO MEGA_DRIVE_CORE_STR, 0x0, 0x0,0x2  ; mega drive core
-    DRAW_TEXT_MACRO UPTIME_STR, 0x1A, 0x1, 0x3         ; uptime
-
-; --------------------------------------
-; check and print md model
-; --------------------------------------
-    DRAW_TEXT_MACRO MD_MODEL_STR, 0x0, 0x2, 0x2 ; md model
-
-    GET_MD_MODEL_MACRO ; get md model
-    cmp.b  #0x01, D0   ; 0: domestic model / 1: overseas model
-    beq.s DRAW_MD_OVERSEAS_MODEL_INFO
-
-    DRAW_TEXT_MACRO MD_DOMESTIC_MODEL_STR, 0x9, 0x2, 0x1 ; domestic model
-    jmp DRAW_MD_MODEL_INFO_END
-
-DRAW_MD_OVERSEAS_MODEL_INFO:
-    DRAW_TEXT_MACRO MD_OVERSEAS_MODEL_STR, 0x9, 0x2, 0x1 ; overseas model
-
-DRAW_MD_MODEL_INFO_END:
-
-; --------------------------------------
-; check and print md version
-; --------------------------------------
-    DRAW_TEXT_MACRO MD_VER_STR, 0x0, 0x3, 0x2 ; md ver
-
-    GET_MD_VERSION_MACRO ; get mega drive hardware version
-    add.b #0x30, D0 ; add ascii offset
-    lsl.w #0x08, D0 ; logical shift to 8 bits right
-    move.w D0, RAM_MD_VER
-
-    DRAW_TEXT_MACRO RAM_MD_VER, 0x9, 0x3, 0x1
+    DEMO_DRAW_LOGO_MACRO 0x0, 0x0     ; mega drive core
+    DEMO_DRAW_SYS_INFO_MACRO 0x0, 0x2 ; mega drive, model name, model version
 
 ; --------------------------------------
 ; check and print cpu mode
 ; --------------------------------------
-    DRAW_TEXT_MACRO MOTOROLA_68000_STR, 0x0, 0x5, 0x2 ; motorola 68000
-    DRAW_TEXT_MACRO M68K_MODE_STR,      0x0, 0x7, 0x2 ; mode
+    DRAW_TEXT_MACRO MOTOROLA_68000_STR, 0x0, 0x7, 0x2 ; motorola 68000
+    DRAW_TEXT_MACRO M68K_MODE_STR,      0x0, 0x8, 0x2 ; mode
 
     GET_MD_CPU_MODE_MACRO ; get md cpu mode
     cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
     beq.s DRAW_MD_CPU_PAL_INFO
 
-    DRAW_TEXT_MACRO M68K_NTSC_INFO_STR, 0x9, 0x7, 0x1 ; ntsc cpu clock 7 67 mhz
+    DRAW_TEXT_MACRO M68K_NTSC_INFO_STR, 0x9, 0x8, 0x1 ; ntsc cpu clock 7 67 mhz
     jmp DRAW_MD_CPU_INFO_END
 
 DRAW_MD_CPU_PAL_INFO:
-    DRAW_TEXT_MACRO M68K_PAL_INFO_STR, 0x9, 0x7, 0x1  ; pal cpu clock 7 60 mhz
+    DRAW_TEXT_MACRO M68K_PAL_INFO_STR, 0x9, 0x8, 0x1  ; pal cpu clock 7 60 mhz
 
 DRAW_MD_CPU_INFO_END:
 
@@ -173,6 +135,8 @@ RAM_PC:
 ; --------------------------------------
 ; main loop
 ; --------------------------------------
+    DRAW_TEXT_MACRO UPTIME_STR, 0x1A, 0x1, 0x3      ; uptime
+
     move.l #0x0, RAM_COUNTER                        ; start counter from 0
 MAIN_LOOP:
     NUM_TO_TEXT_MACRO RAM_COUNTER, RAM_COUNTER_STR  ; convert number to text
