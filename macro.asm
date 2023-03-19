@@ -159,3 +159,11 @@ DEMO_DRAW_SYS_INFO_MACRO: MACRO x_cord, y_cord
     jsr DEMO_DRAW_SYS_INFO_SR
     movem.l (SP)+, A0-A6/D0-D7
     ENDM
+
+DEMO_DRAW_M68K_MODE_MACRO: MACRO x_cord, y_cord
+    movem.l A0-A6/D0-D7, -(SP)
+    move.l #x_cord, D0
+    move.l #y_cord, D1
+    jsr DEMO_DRAW_M68K_MODE_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM

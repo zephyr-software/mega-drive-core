@@ -40,6 +40,7 @@ DEMO_CLR_SR:
 ;               D1 - y coordinate
 ; ==============================================================================
 DEMO_DRAW_LOGO_SR:
+
     move.l D0, RAM_DEMO_MD_CORE_POS_X ; save x cord to ram
     move.l D1, RAM_DEMO_MD_CORE_POS_Y ; save y cord to ram
 
@@ -56,6 +57,7 @@ DEMO_DRAW_LOGO_SR:
 ;               D1 - y coordinate
 ; ==============================================================================
 DEMO_DRAW_SYS_INFO_SR:
+
     move.l D0, RAM_DEMO_MD_CORE_POS_X ; save x cord to ram
     move.l D1, RAM_DEMO_MD_CORE_POS_Y ; save y cord to ram
 
@@ -91,7 +93,7 @@ DRAW_MD_MODEL_INFO_END:
 ; --------------------------------------
     move.l #0x0, RAM_DEMO_MD_CORE_POS_X
 
-    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc x cord
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
     add.l #0x1, D0
     move.l D0, RAM_DEMO_MD_CORE_POS_Y
 
@@ -107,5 +109,44 @@ DRAW_MD_MODEL_INFO_END:
     add.l #0x8, D0
     move.l D0, RAM_DEMO_MD_CORE_POS_X
     DRAW_TEXT_MEM_CORD_MACRO RAM_MD_VER, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1
+
+    rts
+
+
+; ==============================================================================
+; DEMO_DRAW_M68K_MODE_SR - demo draw motorola 68000 mode subroutine
+; check and print cpu mode
+; ------------------------------------------------------------------------------
+; input params: D0 - x coordinate
+;               D1 - y coordinate
+; ==============================================================================
+DEMO_DRAW_M68K_MODE_SR:
+
+    move.l D0, RAM_DEMO_MD_CORE_POS_X ; save x cord to ram
+    move.l D1, RAM_DEMO_MD_CORE_POS_Y ; save y cord to ram
+
+    DRAW_TEXT_MEM_CORD_MACRO MOTOROLA_68000_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; motorola 68000
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x2, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO M68K_MODE_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; mode
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x8, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    GET_MD_CPU_MODE_MACRO ; get md cpu mode
+    cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
+    beq.s DRAW_MD_CPU_PAL_INFO
+
+    DRAW_TEXT_MEM_CORD_MACRO M68K_NTSC_INFO_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; ntsc cpu clock 7 67 mhz
+    jmp DRAW_MD_CPU_INFO_END
+
+DRAW_MD_CPU_PAL_INFO:
+    DRAW_TEXT_MEM_CORD_MACRO M68K_PAL_INFO_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1  ; pal cpu clock 7 60 mhz
+
+DRAW_MD_CPU_INFO_END:
 
     rts

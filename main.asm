@@ -13,47 +13,31 @@ MAIN:
     DEMO_DRAW_LOGO_MACRO 0x0, 0x0     ; mega drive core
     DEMO_DRAW_SYS_INFO_MACRO 0x0, 0x2 ; mega drive, model name, model version
 
-; --------------------------------------
-; check and print cpu mode
-; --------------------------------------
-    DRAW_TEXT_MACRO MOTOROLA_68000_STR, 0x0, 0x7, 0x2 ; motorola 68000
-    DRAW_TEXT_MACRO M68K_MODE_STR,      0x0, 0x8, 0x2 ; mode
-
-    GET_MD_CPU_MODE_MACRO ; get md cpu mode
-    cmp.b  #0x01, D0      ; 0: md cpu ntsc info / 1: md cpu pal info
-    beq.s DRAW_MD_CPU_PAL_INFO
-
-    DRAW_TEXT_MACRO M68K_NTSC_INFO_STR, 0x9, 0x8, 0x1 ; ntsc cpu clock 7 67 mhz
-    jmp DRAW_MD_CPU_INFO_END
-
-DRAW_MD_CPU_PAL_INFO:
-    DRAW_TEXT_MACRO M68K_PAL_INFO_STR, 0x9, 0x8, 0x1  ; pal cpu clock 7 60 mhz
-
-DRAW_MD_CPU_INFO_END:
+    DEMO_DRAW_M68K_MODE_MACRO 0x0, 0x7 ; m68k mode
 
 ; --------------------------------------
 ; print status register info
 ; --------------------------------------
-    DRAW_TEXT_MACRO CPU_M68K_SR_STR, 0x0, 0x9, 0x2 ; SR
+    DRAW_TEXT_MACRO CPU_M68K_SR_STR, 0x0, 0x12, 0x2 ; SR
 
     clr.l D0
     move.w SR, D0
     move.l D0, RAM_M68K_SR
 
     NUM_TO_TEXT_MACRO RAM_M68K_SR, RAM_M68K_SR_STR ; convert number to text
-    DRAW_TEXT_MACRO RAM_M68K_SR_STR, 0x3, 0x9, 0x1 ; status register value
+    DRAW_TEXT_MACRO RAM_M68K_SR_STR, 0x3, 0x12, 0x1 ; status register value
 
 ; --------------------------------------
 ; print program counter register info
 ; --------------------------------------
-    DRAW_TEXT_MACRO CPU_M68K_PC_STR, 0xC, 0x9, 0x2 ; PC
+    DRAW_TEXT_MACRO CPU_M68K_PC_STR, 0xC, 0x12, 0x2 ; PC
 
 RAM_PC:
     lea(RAM_PC, PC), A0
     move.l A0, RAM_M68K_PC
 
     NUM_TO_TEXT_MACRO RAM_M68K_PC, RAM_M68K_PC_STR ; convert number to text
-    DRAW_TEXT_MACRO RAM_M68K_PC_STR, 0xF, 0x9, 0x1 ; program counter reg value
+    DRAW_TEXT_MACRO RAM_M68K_PC_STR, 0xF, 0x12, 0x1 ; program counter reg value
 
 ; --------------------------------------
 ; print d0-d7 registers info
