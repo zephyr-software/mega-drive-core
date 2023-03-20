@@ -162,4 +162,4 @@ CPU_M68K_A5_STR:
 CPU_M68K_A6_STR:
     dc.b "A6", 0
 CPU_M68K_A7_STR:
-    dc.b "A7", 0
+    dc.b "SP", 0

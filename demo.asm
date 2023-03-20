@@ -150,3 +150,356 @@ DRAW_MD_CPU_PAL_INFO:
 DRAW_MD_CPU_INFO_END:
 
     rts
+
+
+; ==============================================================================
+; DEMO_DRAW_M68K_REGS_SR - demo draw motorola 68000 registers subroutine
+; print d0-d7 / a0-a7 / sr / pc
+; ------------------------------------------------------------------------------
+; input params: D0 - x coordinate
+;               D1 - y coordinate
+; ==============================================================================
+DEMO_DRAW_M68K_REGS_SR:
+
+    move.l D0, RAM_DEMO_MD_CORE_POS_X ; save x cord to ram
+    move.l D1, RAM_DEMO_MD_CORE_POS_Y ; save y cord to ram
+
+; --------------------------------------
+; print d0-d7 registers info
+; --------------------------------------
+    move.l #0xD0D0D0D0, D0 ; test data
+    move.l #0xD1D1D1D1, D1
+    move.l #0xD2D2D2D2, D2
+    move.l #0xD3D3D3D3, D3
+    move.l #0xD4D4D4D4, D4
+    move.l #0xD5D5D5D5, D5
+    move.l #0xD6D6D6D6, D6
+    move.l #0xD7D7D7D7, D7
+
+    move.l #0xA0A0A0A0, A0
+    move.l #0xA1A1A1A1, A1
+    move.l #0xA2A2A2A2, A2
+    move.l #0xA3A3A3A3, A3
+    move.l #0xA4A4A4A4, A4
+    move.l #0xA5A5A5A5, A5
+    move.l #0xA6A6A6A6, A6
+                      ; A7 = SP stack pointer
+
+    SAVE_M68K_REGS_MACRO
+
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x0, RAM_M68K_D0_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x1, RAM_M68K_D1_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x2, RAM_M68K_D2_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x3, RAM_M68K_D3_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x4, RAM_M68K_D4_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x5, RAM_M68K_D5_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x6, RAM_M68K_D6_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x7, RAM_M68K_D7_STR
+
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x8, RAM_M68K_A0_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0x9, RAM_M68K_A1_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xA, RAM_M68K_A2_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xB, RAM_M68K_A3_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xC, RAM_M68K_A4_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xD, RAM_M68K_A5_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xE, RAM_M68K_A6_STR
+    NUM_TO_TEXT_MACRO RAM_M68K_D0_D7_A0_A7 + 0x4 * 0xF, RAM_M68K_A7_STR
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D0_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d0
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D0_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d0 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D1_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d1
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D1_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d1 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D2_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d2
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D2_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d2 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D3_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d3
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D3_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d3 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D4_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d4
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D4_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d4 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D5_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d5
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D5_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d5 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D6_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d6
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D6_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d6 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_D7_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; d7
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_D7_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; d7 register value
+
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x9, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; dec y cord
+    sub.l #0x7, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A0_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a0
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A0_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a0 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A1_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a1
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A1_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a1 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A2_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a2
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A2_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a2 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A3_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a3
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A3_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a3 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A4_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a4
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A4_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a4 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A5_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a5
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A5_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a5 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A6_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; a6
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A6_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a6 register value
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x1, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_A7_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; sp
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_A7_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; a7 register value
+
+
+; --------------------------------------
+; print status register info
+; --------------------------------------
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; dec x cord
+    sub.l #0xF, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    move.l RAM_DEMO_MD_CORE_POS_Y, D0 ; inc y cord
+    add.l #0x2, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_Y
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_SR_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; sr
+
+    clr.l D0
+    move.w SR, D0
+    move.l D0, RAM_M68K_SR
+
+    NUM_TO_TEXT_MACRO RAM_M68K_SR, RAM_M68K_SR_STR  ; convert number to text
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_SR_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; status register value
+
+; --------------------------------------
+; print program counter register info
+; --------------------------------------
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x9, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO CPU_M68K_PC_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x2 ; pc
+
+RAM_PC:
+    lea(RAM_PC, PC), A0
+    move.l A0, RAM_M68K_PC
+
+    NUM_TO_TEXT_MACRO RAM_M68K_PC, RAM_M68K_PC_STR ; convert number to text
+
+    move.l RAM_DEMO_MD_CORE_POS_X, D0 ; inc x cord
+    add.l #0x3, D0
+    move.l D0, RAM_DEMO_MD_CORE_POS_X
+
+    DRAW_TEXT_MEM_CORD_MACRO RAM_M68K_PC_STR, RAM_DEMO_MD_CORE_POS_X, RAM_DEMO_MD_CORE_POS_Y, 0x1 ; program counter reg value
+
+
+    rts
