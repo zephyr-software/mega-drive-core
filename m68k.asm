@@ -17,7 +17,7 @@
 ; jsr INIT_M68K_SREG_SR
 ; ==============================================================================
 INIT_M68K_SREG_SR:
-    move #0x2700, SR ; system byte: no trace, supervisor mode; irq level 7
+    move #0x2500, SR ; system byte: no trace, supervisor mode; irq level 6-7
                      ; user byte  : 0x0
 
     rts

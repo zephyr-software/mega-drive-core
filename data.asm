@@ -9,7 +9,7 @@
 ; --------------------------------------
 VDP_REG:
     dc.b 0x06 ; 00: mode 1: [h int]- [h,v count]-
-    dc.b 0x44 ; 01: mode 2: [display]+ [v int]- [dma]- [v28 cell mode]
+    dc.b 0x64 ; 01: mode 2: [display]+ [v int]+ [dma]- [v28 cell mode]
     dc.b 0x30 ; 02: plane a table: [0xC000]
     dc.b 0x3E ; 03: window table:  [0xF800]
     dc.b 0x07 ; 04: plane b table: [0xE000]
@@ -163,3 +163,9 @@ CPU_M68K_A6_STR:
     dc.b "A6", 0
 CPU_M68K_A7_STR:
     dc.b "SP", 0
+
+; --------------------------------------
+; vdp constant
+; --------------------------------------
+VDP_VINT_TOTAL_PAL:  equ 0x32 ; 50
+VDP_VINT_TOTAL_NTSC: equ 0x3C ; 60

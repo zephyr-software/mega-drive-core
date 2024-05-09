@@ -1,5 +1,6 @@
 ; ******************************************************************************
 ; mega drive memory map
+;
 ; ******************************************************************************
 
 
@@ -13,12 +14,43 @@ STACK_START: equ RAM_END - 1
 STACK_END:   equ STACK_START - STACK_SIZE
 STACK_ADDR:  equ RAM_ADDR + STACK_START
 
-RAM_COUNTER:          equ RAM_ADDR + RAM_START
-RAM_COUNTER_SIZE:     equ 0x4
-RAM_COUNTER_STR:      equ RAM_COUNTER + RAM_COUNTER_SIZE
-RAM_COUNTER_STR_SIZE: equ 0xA
+; --------------------------------------
+; text utils
+; --------------------------------------
 
-RAM_MD_VER:      equ RAM_COUNTER_STR + RAM_COUNTER_STR_SIZE
+RAM_BYTE_DEC_FLIP_STR:      equ RAM_ADDR + RAM_START
+RAM_BYTE_DEC_FLIP_STR_SIZE: equ 0x4
+
+; --------------------------------------
+; uptime
+; --------------------------------------
+
+RAM_UPTIME_VINT:            equ RAM_BYTE_DEC_FLIP_STR + RAM_BYTE_DEC_FLIP_STR_SIZE
+RAM_UPTIME_VINT_SIZE:       equ 0x2
+
+RAM_UPTIME_VINT_TOTAL:      equ RAM_UPTIME_VINT + RAM_UPTIME_VINT_SIZE
+RAM_UPTIME_VINT_TOTAL_SIZE: equ 0x4
+
+RAM_UPTIME_SEC:             equ RAM_UPTIME_VINT_TOTAL + RAM_UPTIME_VINT_TOTAL_SIZE
+RAM_UPTIME_SEC_SIZE:        equ 0x2
+RAM_UPTIME_SEC_STR:         equ RAM_UPTIME_SEC + RAM_UPTIME_SEC_SIZE
+RAM_UPTIME_SEC_STR_SIZE:    equ 0x4
+
+RAM_UPTIME_MIN:             equ RAM_UPTIME_SEC_STR + RAM_UPTIME_SEC_STR_SIZE
+RAM_UPTIME_MIN_SIZE:        equ 0x2
+RAM_UPTIME_MIN_STR:         equ RAM_UPTIME_MIN + RAM_UPTIME_MIN_SIZE
+RAM_UPTIME_MIN_STR_SIZE:    equ 0x4
+
+RAM_UPTIME_HOUR:            equ RAM_UPTIME_MIN_STR + RAM_UPTIME_MIN_STR_SIZE
+RAM_UPTIME_HOUR_SIZE:       equ 0x2
+RAM_UPTIME_HOUR_STR:        equ RAM_UPTIME_HOUR + RAM_UPTIME_HOUR_SIZE
+RAM_UPTIME_HOUR_STR_SIZE:   equ 0x4
+
+; --------------------------------------
+; system
+; --------------------------------------
+
+RAM_MD_VER:      equ RAM_UPTIME_HOUR_STR + RAM_UPTIME_HOUR_STR_SIZE
 RAM_MD_VER_SIZE: equ 0x2
 
 RAM_M68K_SR:          equ RAM_MD_VER + RAM_MD_VER_SIZE

@@ -10,7 +10,6 @@
     include text.asm
     include time.asm
 
-
 ; ==============================================================================
 ; m68k macros
 ; ==============================================================================
@@ -111,6 +110,21 @@ DRAW_TEXT_MACRO: MACRO str_addr x_cord y_cord pal_num
     movem.l (SP)+, A0-A6/D0-D7
     ENDM
 
+BYTE_TO_DEC_TEXT_MACRO: MACRO byte_ram, byte_str_ram
+    movem.l A0-A6/D0-D7, -(SP)
+    lea byte_ram, A0
+    lea byte_str_ram, A1
+    jsr BYTE_TO_DEC_TEXT_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+BYTE_DEC_TEXT_EXTEND_MACRO: MACRO byte_str_ram
+    movem.l A0-A6/D0-D7, -(SP)
+    lea byte_str_ram, A0
+    jsr BYTE_DEC_TEXT_EXTEND_SR
+    movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
 NUM_TO_TEXT_MACRO: MACRO num_ram, num_str_ram
     movem.l A0-A6/D0-D7, -(SP)
     lea num_ram, A0
@@ -129,9 +143,69 @@ SLEEP_SEC_MACRO: MACRO sec_num
     movem.l (SP)+, A0-A6/D0-D7
     ENDM
 
+UPDATE_TIME_MACRO: MACRO
+    move.l D0, -(SP)
+
+    move.l RAM_UPTIME_VINT_TOTAL, D0 ; update total number - vertical interrupt
+    addi.l #0x00000001, D0
+    move.l D0, RAM_UPTIME_VINT_TOTAL
+
+    move.w RAM_UPTIME_VINT, D0       ; update number - vint for this second
+    addi.w #0x0001, D0
+
+    cmpi.w #VDP_VINT_TOTAL_PAL, D0   ; if vint >= 50 [pal: 50 vint = 1 sec]
+    beq.s VINT_UPD_TIME_SEC
+
+    move.w D0, RAM_UPTIME_VINT
+    jmp VINT_END
+
+VINT_UPD_TIME_SEC:
+    move.w #0x0000, RAM_UPTIME_VINT ; reset counter for new sec
+
+    move.b RAM_UPTIME_SEC, D0
+    add.b #0x01, D0
+
+    cmpi.b #0x3C, D0                ; if sec >= 60 [60 sec = 1 min]
+    beq.s VINT_UPD_TIME_MIN
+
+    move.b D0, RAM_UPTIME_SEC
+    jmp VINT_END
+
+VINT_UPD_TIME_MIN:
+    move.w #0x0000, RAM_UPTIME_SEC ; reset counter for new min
+
+    move.b RAM_UPTIME_MIN, D0
+    add.b #0x01, D0
+
+    cmpi.b #0x3C, D0               ; if min >= 60 [60 min = 1 hour]
+    beq.s VINT_UPD_TIME_HOUR
+
+    move.b D0, RAM_UPTIME_MIN
+    jmp VINT_END
+
+VINT_UPD_TIME_HOUR:
+    move.w #0x0000, RAM_UPTIME_MIN ; reset counter for new hour
+
+    move.b RAM_UPTIME_HOUR, D0
+    add.b #0x01, D0
+
+    cmpi.b #0x18, D0               ; if hour >= 24 [24 hour = 1 day]
+    beq.s VINT_UPD_TIME_DAY
+
+    move.b D0, RAM_UPTIME_HOUR
+    jmp VINT_END
+
+VINT_UPD_TIME_DAY:
+    move.w #0x0000, RAM_UPTIME_HOUR
+
+VINT_END:
+    move.l (SP)+, D0
+    ENDM
+
 ; ==============================================================================
 ; demo macros
 ; ==============================================================================
+
 DEMO_LOAD_SRC_MACRO: MACRO
     movem.l A0-A6/D0-D7, -(SP)
     jsr DEMO_LOAD_SRC_SR
@@ -175,4 +249,32 @@ DEMO_DRAW_M68K_REGS_MACRO: MACRO x_cord, y_cord
     move.l #y_cord, D1
     jsr DEMO_DRAW_M68K_REGS_SR
     movem.l (SP)+, A0-A6/D0-D7
+    ENDM
+
+
+DEMO_DRAW_INFO_MACRO: MACRO
+    DEMO_LOAD_SRC_MACRO ; load resources for demo
+    DEMO_CLR_MACRO      ; clear screen with 0 tyle and set background color to 0
+
+    DEMO_DRAW_LOGO_MACRO 0x0, 0x0      ; mega drive core
+    DEMO_DRAW_SYS_INFO_MACRO 0x0, 0x3  ; mega drive, model name, model version
+    DEMO_DRAW_M68K_MODE_MACRO 0x0, 0x9 ; m68k mode
+    DEMO_DRAW_M68K_REGS_MACRO 0x0, 0xD ; m68k regs d0-d7/a0-a7/sr/pc
+
+    DRAW_TEXT_MACRO UPTIME_STR, 0x11, 0x1B, 0x3 ; uptime
+    ENDM
+
+DEMO_MAIN_LOOP_MACRO: MACRO
+    BYTE_TO_DEC_TEXT_MACRO RAM_UPTIME_SEC, RAM_UPTIME_SEC_STR
+    BYTE_DEC_TEXT_EXTEND_MACRO RAM_UPTIME_SEC_STR
+    DRAW_TEXT_MACRO RAM_UPTIME_SEC_STR ,0x1E, 0x1B, 0x3
+
+    BYTE_TO_DEC_TEXT_MACRO RAM_UPTIME_MIN, RAM_UPTIME_MIN_STR
+    BYTE_DEC_TEXT_EXTEND_MACRO RAM_UPTIME_MIN_STR
+    DRAW_TEXT_MACRO RAM_UPTIME_MIN_STR ,0x1B, 0x1B, 0x3
+
+    BYTE_TO_DEC_TEXT_MACRO RAM_UPTIME_HOUR, RAM_UPTIME_HOUR_STR
+    BYTE_DEC_TEXT_EXTEND_MACRO RAM_UPTIME_HOUR_STR
+    DRAW_TEXT_MACRO RAM_UPTIME_HOUR_STR ,0x18, 0x1B, 0x3
+
     ENDM
