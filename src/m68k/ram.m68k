@@ -1,0 +1,38 @@
+; ******************************************************************************
+; main memory [ram] - 65536 bytes
+;
+; ******************************************************************************
+
+
+; ==============================================================================
+; FILL_RAM_SR - fill memory subroutine
+; fill memory with the same byte subroutine
+; ------------------------------------------------------------------------------
+; input params:
+; A0 - ram start
+; A1 - ram end
+; D0 - byte to fill
+;
+; output params: no
+; ------------------------------------------------------------------------------
+; call example:
+; movem  A0-A6/D0-D7, -(SP)
+; move.w #0x0000, A0          ; ram start
+; move.w #0xFFFF, A1          ; ram end
+; move.b #0x00, D0            ; byte to fill
+; jsr FILL_RAM_SR
+; movem  (SP)+, A0-A6/D0-D7
+; =============================================================================
+FILL_RAM_SR:
+    move.w a0, d1
+    move.w a1, d2
+
+    lea RAM_ADDR, a2
+    adda.l a2, a0
+
+    sub.w d1, d2
+FILL_RAM:
+    move.b d0, (a0)+
+    dbra d2, FILL_RAM
+
+    rts

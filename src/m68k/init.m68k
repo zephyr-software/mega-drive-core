@@ -1,0 +1,43 @@
+; ******************************************************************************
+; system initialization code section
+;
+; ******************************************************************************
+
+    include vector.m68k
+    include header.m68k
+    include macro.m68k
+
+
+INIT: ; entry point address in cpu vector table
+
+    INIT_M68K_SREG_MACRO ; no trace, supervisor mode; irq level 7, user byte 0
+    CLR_M68K_MACRO       ; clear m68k regs
+
+; --------------------------------------
+; pass trade mark security signature
+; --------------------------------------
+    GET_MD_VERSION_MACRO ; get mega drive hardware version
+    cmp.b  #0x00, d0     ; if version 0, skip tmss signature
+    beq.s  NO_TMSS
+
+    move.l #'SEGA', 0x00A14000 ; pass tmss
+NO_TMSS:
+
+; --------------------------------------
+; init video display processor
+; --------------------------------------
+    move.l #VDP_REG,    a0 ; vdp register table
+    move.l #0x00000017, d0 ; 24 vdp register
+    move.l #0x00008000, d1 ; set vdp register command [register 0]
+
+VDP_REG_COPY:
+    move.b (A0)+,   d1         ; vdp register value
+    move.w d1,      0x00C00004 ; set vdp register with vdp control port
+    add.w  #0x0100, d1         ; set vdp register command [next register]
+    dbra   d0,      VDP_REG_COPY
+
+
+    FILL_RAM_MACRO RAM_START, STACK_END - 1, 0x00 ; fill ram with 0
+    CLR_M68K_MACRO                                ; clear m68k regs
+
+    jmp MAIN

@@ -1,0 +1,85 @@
+; ******************************************************************************
+; main code section
+;
+; ******************************************************************************
+
+    include init.m68k
+    include demo.m68k
+
+MAIN:
+
+; --------------------------------------
+; z-80 test
+; --------------------------------------
+    move.w #0x0000, 0x00A11200
+    move.w #0x0100, 0x00A11100 ; request access to the Z80 bus - write 0x0100 into BUSREQ port
+    move.w #0x0100, 0x00A11200 ; hold the z80 in a reset state - write 0x0100 into the RESET port
+
+    move.l #Z80_DATA, a0    ; Load address of data into a0
+    move.l #0x00A00000, a1  ; Copy Z80 RAM address to a1
+    move.l #0x05, d0        ; 6 bytes of init data (minus 1 for counter)
+
+Z80_COPY_DATA:
+    move.b (a0)+, (a1)+     ; Copy data, and increment the source/dest addresses
+    dbra d0, Z80_COPY_DATA
+
+
+    move.w #0x0000, 0x00A11200
+    move.w  #20, d0
+Z80_WAIT_ACCESS:
+    dbf d0, Z80_WAIT_ACCESS
+    
+    ;btst #0x0, 0x00A11100   ; Test bit 0 of A11100 to see if the 68k has access to the Z80 bus yet
+    ;bne Z80_WAIT_ACCESS     ; If we don't yet have control, branch back up to Wait
+
+    move.w #0x0100, 0x00A11200 ; Release reset state
+    move.w #0x0000, 0x00A11100 ; Release control of bus
+
+; --------------------------------------
+
+
+    DEMO_DRAW_INFO_MACRO
+
+; --------------------------------------
+; main loop
+; --------------------------------------
+MAIN_LOOP:
+    DEMO_MAIN_LOOP_MACRO
+
+    jmp MAIN_LOOP
+
+
+; --------------------------------------
+; horizontal retrace
+; --------------------------------------
+HINT:
+
+    rte
+
+
+; --------------------------------------
+; vertical retrace
+; --------------------------------------
+VINT:
+    UPDATE_TIME_MACRO
+
+    rte
+
+
+; --------------------------------------
+; exception
+; --------------------------------------
+EXCEPTION:
+    stop #$2700 ; halt cpu
+
+
+    include data.m68k
+    include font.m68k
+    include memory.m68k
+
+
+Z80_DATA:
+    incbin ../../build/z80.bin
+
+
+ROM_END:

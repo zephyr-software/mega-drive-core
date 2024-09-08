@@ -1,0 +1,12 @@
+================================================================================
+DESIGN DOCUMENT
+================================================================================
+
+- Motorola 68000
+- Zilog Z80
+- 64 KiB RAM
+- 64 Kib Video Ram
+- Yamaha YM7101 Video Display Processor (VDP)
+- Texas Instruments SN76489 PSG
+- Yamaha YM2612 sound chip
+- Controller
