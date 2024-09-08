@@ -27,6 +27,36 @@ SAVE_M68K_REGS_MACRO: MACRO
     ENDM
 
 ; ==============================================================================
+; z80 macros
+; ==============================================================================
+LOAD_Z80_MACRO: MACRO
+    move.w #0x0000, 0x00A11200
+    move.w #0x0100, 0x00A11100 ; request access to the Z80 bus - write 0x0100 into BUSREQ port
+    move.w #0x0100, 0x00A11200 ; hold the z80 in a reset state - write 0x0100 into the RESET port
+
+    move.l #Z80_DATA, a0    ; load address of data into a0
+    move.l #0x00A00000, a1  ; copy Z80 RAM address to a1
+    move.l #0x05, d0        ; 6 bytes of init data (minus 1 for counter)
+
+Z80_COPY_DATA:
+    move.b (a0)+, (a1)+     ; Copy data, and increment the source/dest addresses
+    dbra d0, Z80_COPY_DATA
+
+    move.w #0x0000, 0x00A11200
+    move.w  #20, d0
+Z80_WAIT_ACCESS:
+    dbf d0, Z80_WAIT_ACCESS
+
+    ;btst #0x0, 0x00A11100   ; Test bit 0 of A11100 to see if the 68k has access to the Z80 bus yet
+    ;bne Z80_WAIT_ACCESS     ; If we don't yet have control, branch back up to Wait
+
+    move.w #0x0100, 0x00A11200 ; Release reset state
+    move.w #0x0000, 0x00A11100 ; Release control of bus
+
+    ENDM
+
+
+; ==============================================================================
 ; system macros
 ; ==============================================================================
 GET_MD_VERSION_MACRO: MACRO
@@ -254,15 +284,11 @@ DEMO_DRAW_M68K_REGS_MACRO: MACRO x_cord, y_cord
 
 
 DEMO_DRAW_INFO_MACRO: MACRO
-    DEMO_LOAD_SRC_MACRO ; load resources for demo
-    DEMO_CLR_MACRO      ; clear screen with 0 tyle and set background color to 0
-
     DEMO_DRAW_LOGO_MACRO 0x0, 0x0      ; mega drive core
     DEMO_DRAW_SYS_INFO_MACRO 0x0, 0x3  ; mega drive, model name, model version
     DEMO_DRAW_M68K_MODE_MACRO 0x0, 0x9 ; m68k mode
     DEMO_DRAW_M68K_REGS_MACRO 0x0, 0xD ; m68k regs d0-d7/a0-a7/sr/pc
 
-    DRAW_TEXT_MACRO UPTIME_STR, 0x11, 0x1B, 0x3 ; uptime
     ENDM
 
 DEMO_MAIN_LOOP_MACRO: MACRO
