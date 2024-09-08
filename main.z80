@@ -1,5 +1,0 @@
-MAIN_LOOP:
-
-    ld a, 0xFF
-    ld a, 0xAA
-    jr MAIN_LOOP
